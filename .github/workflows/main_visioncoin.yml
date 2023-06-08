@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'visioncoin'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B9BC3EBAE43842B1BD2AFA2807BECD61 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_152476C115ED47FC99940C43C2CC9C8B }}
