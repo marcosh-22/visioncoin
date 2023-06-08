@@ -1,0 +1,72 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>VisionCoin - Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="">
+    <main>
+        <div class="left-container">
+
+            <div>
+                <div class="popup">
+                    <div class="popup-panel">
+                        <p>Monitor</p>
+                    </div>
+                    <div class="default-table cryptotable-container">
+                        <table id="cryptotable" class="default-table">
+                            <!--Dadas da tabela são atualizados dinamicamente-->
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="middle-container">
+
+            <div class="sticky-container">
+                <div>
+                    <div class="popup">
+                        <div class="popup-panel">
+                            <p>Chart</p>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="chart">
+                                <!--Dados do canvas são atualizados dinamicamente-->
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <div id="theme-button">
+            <button><img src="{% static 'img/moon.png' %}" alt="Theme"></button>
+        </div>
+        <div id="footer-content">
+            <div id="footer-names">
+                <h1>VisionCoin</h1>
+                <h2>Dashboard</h2>
+            </div>
+        </div>
+        <p id="footer-developers">Developed by: Marcos Nunes, Jamille Araujo e Lohanna Maria</p>
+    </footer>
+
+</body>
+<script type="module" src="{% static 'js/main.js' %}"> </script>
+
+</html>
