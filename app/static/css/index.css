@@ -316,4 +316,8 @@ footer {
             "left-container";
         grid-template-columns: 1fr;
     }
+
+    .chart-container {
+        height: 50vh;
+    }
 }
