@@ -1,5 +1,7 @@
 import { CoingeckoAPI } from "./CoingeckoAPI.js";
 
+const DEFAULT_CHART_COIN = ['bitcoin'];
+
 function isDarkMode(){
     return document.body.classList.contains('dark-theme');
 }
@@ -22,19 +24,21 @@ export class ChartManager {
 
         this.chartAnimationCompleted = false;
 
-        this.__init__();
+        this._oldChartData = null;
     }
 
     __init__() {
         this.createChart();
         this.createCanvasManager();
+        this.set_coinIds(DEFAULT_CHART_COIN);
     }
 
     async update() {
         try {
-            await this.fetchData();
-            this.updateChart();
-            this.canvasManager.setMeta(this.chart.getDatasetMeta(0));
+            if (await this.fetchData()){
+                this.updateChart();
+                this.canvasManager.setMeta(this.chart.getDatasetMeta(0));
+            }
         } catch (e) {
             if (e instanceof FreePlanError) {
                 alert(e.message);
@@ -63,9 +67,11 @@ export class ChartManager {
         const responses = await Promise.all(promises);
         responses.forEach((response, index) => {
             if (response.response.ok) {
-                this.chartData.datasets[index].data = response.data['data']['prices'];
+                let prices = response.data['data']['prices'];
+
+                this.chartData.datasets[index].data = prices;
                 this.chartData.datasets[index].label = this.coinIds[index];
-                this.chartData.labels = response.data['data']['prices'].map(
+                this.chartData.labels = prices.map(
                     (price) => new Date(price[0]).toLocaleDateString()
                 );
             } else {
@@ -75,6 +81,13 @@ export class ChartManager {
                 throw new Error('cannot get market chart, status: ' + response.response.status);
             }
         });
+
+        if (JSON.stringify(this._oldChartData) === JSON.stringify(this.chartData)) {
+            return false;
+        }
+        this._oldChartData = Object.assign({}, this.chartData);
+        
+        return true;
     }
 
     createDatasets() {
@@ -98,6 +111,10 @@ export class ChartManager {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                animation: {
+                    duration: 100,
+                    easing: 'linear',
+                },
                 scales: {
                     x: {
                         display: false,

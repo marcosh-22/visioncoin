@@ -1,13 +1,11 @@
 import { TableManager } from './TableManager.js';
 import { CoingeckoAPI } from './CoingeckoAPI.js';
-import { ChartManager } from "./chartManager.js";
 
 const MAX_TABLE_LIMIT = 25;
-const DEFAULT_CHART_COIN = ['bitcoin'];
 export class CryptoTableManager {
-    constructor(tableId) {
+    constructor(tableId, chartManager) {
         this.tableManager = new TableManager(tableId);
-        this.chartManager = new ChartManager('chart');
+        this.chartManager = chartManager;
 
         this.HEADERS = [
             '#',
@@ -19,8 +17,6 @@ export class CryptoTableManager {
         this.marketcoins = { data: [], }
         this.thead = null;
         this.tbody = null;
-
-        this.__init__();
     }
 
     __init__() {
@@ -39,7 +35,7 @@ export class CryptoTableManager {
 
     async update() {
         await this.updatemarketcoins();
-        this.chartManager.set_coinIds(DEFAULT_CHART_COIN);
+        this.chartManager.update();
         
         this.addTableBody();
     }
